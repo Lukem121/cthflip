@@ -77,12 +77,11 @@
 		<!-- Champ streak -->
 		<div class="flex bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 text-white py-4 justify-center mt-4">
 			<h2 class="font-bold text-lg" >
-				Winning Streak:
 				{#if $connected}
 					{#await balance}
 						<span>...</span>
 					{:then value}
-						<span class="font-bold">{Number($web3.utils.fromWei(value, 'ether')).toFixed(2)}</span>
+						<span class="font-bold">Winning Streak: {Number($web3.utils.fromWei(value, 'ether')).toFixed(2)}</span>
 					{/await}
 				{:else}
 					<span>please connect your wallet...</span>
@@ -93,12 +92,11 @@
 		<!-- Champ streak -->
 		<div class="flex bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 text-white py-4 justify-center mt-4">
 			<h2 class="font-bold text-lg" >
-				Total Wins:
 				{#if $connected}
 					{#await balance}
 						<span>...</span>
 					{:then value}
-						<span class="font-bold">{Number($web3.utils.fromWei(value, 'ether')).toFixed(2)}</span>
+						<span class="font-bold">Total Wins: {Number($web3.utils.fromWei(value, 'ether')).toFixed(2)}</span>
 					{/await}
 				{:else}
 					<span>please connect your wallet...</span>
@@ -131,9 +129,8 @@
 	<center>Support the devs 💕</center>
 	<center><p class="text-xs">0x02C2fCAfCe36B4AAdB39625866Bc6B1699d83043</p></center>
 	<center class="mb-5"><p class="text-xs">0x0084CabF156C0ea09ED16c089f5AFba5dFAFF5e3</p></center>
-	<div class="flex flex-col justify-end flex-grow">
-		<img id="coinGuy" class=" w-72 md:w-96 -z-10" src="flip.gif" alt="">
-	</div>
+	<img class="absolute left-0 bottom-0 w-72 md:w-auto -z-10" src="flip.gif" alt="">
+
 </main>
 
 <style>
