@@ -17,6 +17,10 @@
 		margin: 0;
 		color: #ccc;
 	}
+
+    button:focus {
+        outline: none;
+    }
 	
 	.selected {
 		border-bottom: 2px solid teal;
