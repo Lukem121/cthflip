@@ -23,17 +23,17 @@
 	
 		<!-- 0.01cTH-->
 		<TabPanel>
-			<Flipper contractAddress={'0x986855785F6aBe92a6aFfAaaAB5481247503B0c0'}/>
+			<Flipper price={'10'} contractAddress={'0x986855785F6aBe92a6aFfAaaAB5481247503B0c0'}/>
 		</TabPanel>
 		
 		<!-- 0.1cTH -->
 		<TabPanel>
-			<Flipper contractAddress={'0x38cD5c965fE59904443Deab67C7015B260FA479f'}/>
+			<Flipper price={'100'} contractAddress={'0x38cD5c965fE59904443Deab67C7015B260FA479f'}/>
 		</TabPanel>
 		
 		<!-- 1cTH -->
 		<TabPanel>
-			<Flipper contractAddress={'0xF153CF203410205eba4c77F98768F564Cdd827F8'}/>
+			<Flipper price={'1000'} contractAddress={'0xF153CF203410205eba4c77F98768F564Cdd827F8'}/>
 		</TabPanel>
 	</Tabs>
 	

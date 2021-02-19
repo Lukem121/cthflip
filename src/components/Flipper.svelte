@@ -5,6 +5,7 @@
 	import { tweened } from 'svelte/motion';
     
     export let contractAddress = '0xeDc5BC933d49a85f510CcF0D7440214bc1e6747d';
+    export let price = '10';
 
 	// Loading Spinners
 	let connectWalletLoading = false;
@@ -41,22 +42,22 @@
 
 		let contract = new $web3.eth.Contract(contractABI, contractAddress, { from: $selectedAccount });
         console.log(contractAddress);
-		// let gasEstimate = await contract.methods.flip().estimateGas({
-		// 	from: $selectedAccount,
-		// 	to: contractAddress,
-		// 	value: $web3.utils.toHex($web3.utils.toWei('10', 'finney'))
-		// }).then(function (res) {
-		// 	return res;
-		// });
+		let gasEstimate = await contract.methods.flip().estimateGas({
+			from: $selectedAccount,
+			to: contractAddress,
+			value: $web3.utils.toHex($web3.utils.toWei(price, 'finney'))
+		}).then(function (res) {
+			return res;
+		});
         
 		flipLoading = true; // Start spinner
 		return new Promise((resolve, reject) => {
 			contract.methods.flip().send({
 				gasPrice: $web3.utils.toHex($web3.utils.toWei('1', 'gwei')),
-				gasLimit: $web3.utils.toHex(115000),
+				gasLimit: $web3.utils.toHex(gasEstimate),
 				from: $selectedAccount,
 				to: contractAddress,
-				value: $web3.utils.toHex($web3.utils.toWei('10', 'finney'))
+				value: $web3.utils.toHex($web3.utils.toWei(price, 'finney'))
 			}).on('confirmation', async (confirmationNumber) => {
 				if(confirmationNumber === 0) {
 					flipLoading = false; // Stop spinner
