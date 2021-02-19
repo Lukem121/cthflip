@@ -42,6 +42,7 @@
 
 		let contract = new $web3.eth.Contract(contractABI, contractAddress, { from: $selectedAccount });
         console.log(contractAddress);
+
 		let gasEstimate = await contract.methods.flip().estimateGas({
 			from: $selectedAccount,
 			to: contractAddress,
@@ -54,7 +55,7 @@
 		return new Promise((resolve, reject) => {
 			contract.methods.flip().send({
 				gasPrice: $web3.utils.toHex($web3.utils.toWei('1', 'gwei')),
-				gasLimit: $web3.utils.toHex(gasEstimate),
+				gasLimit: $web3.utils.toHex(115000),
 				from: $selectedAccount,
 				to: contractAddress,
 				value: $web3.utils.toHex($web3.utils.toWei(price, 'finney'))
@@ -214,9 +215,6 @@
 	</div>
 	<div class="flex justify-center mt-3">
 		<center><h2 class="font-bold" >Once you have become the champion every time you <br> win against your foes, you keep their cTH.</h2></center>
-	</div>
-	<div class="flex justify-center mt-6">
-		<center><h2 class="" >Each flip is fixed to 0.01 cTH</h2></center>
 	</div>
 
 	<!-- Game outcome -->
