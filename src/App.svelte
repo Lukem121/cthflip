@@ -1,9 +1,6 @@
 <script>
 	import Tailwindcss from './Tailwindcss.svelte';
-
-	export let name;
 	import { ethStore, web3, selectedAccount, connected } from 'svelte-web3';
-	import { onMount } from 'svelte';
 
 	const contractABI = [{"inputs":[],"stateMutability":"payable","type":"constructor"},{"stateMutability":"payable","type":"receive"},{"inputs":[],"name":"betAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currentBattler","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
 	const contractAddress = '0x3FB09a2b95cb987ac3150B5FcFEEf214071d1986';
@@ -29,14 +26,17 @@
 			return res;
 		});
 	}
-
-	enableBrowser();
 </script>
 
 <Tailwindcss />
 <main class="pt-10">
 	<div class="flex justify-center"><h1 class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 text-5xl md:text-7xl ">Flip me off</h1></div>
-	<div class="champ pt-10 pb-5">
+	<div class="flex justify-center mt-1">
+		<h2><a class="text-blue-700" href="https://cheapeth.org/">cheapETH's</a>
+			Number one coin flip battle ground
+		</h2>
+	</div>
+	<div class="champ pt-6 pb-5">
 		<div class="flex justify-center">
 			<img class="w-10" src="crown.svg" alt="">
 		</div>
@@ -108,12 +108,15 @@
 		</div>
 	</div>
 	<div class="flex justify-center">
-		<center><h2 class="font-bold" >Challange the current champion to a coin toss! <br> Win and become the new champion</h2></center>
+		<center><h2 class="font-bold" >Challange the current champion to a coin toss! <br> Win and become the new champion.</h2></center>
 	</div>
-	<div class="flex justify-center mt-2">
-		<center><h2 class="font-bold" >Each flip is fixed to 0.01 cTH</h2></center>
+	<div class="flex justify-center mt-3">
+		<center><h2 class="font-bold" >Once you have become the champion every time you <br> win agains your foes, you keep their cTH.</h2></center>
 	</div>
-	<div class="flex justify-center py-4">
+	<div class="flex justify-center mt-6">
+		<center><h2 class="" >Each flip is fixed to 0.01 cTH</h2></center>
+	</div>
+	<div class="flex justify-center mt-3 mb-4">
 		{#if $connected}
 			<button on:click={flipCoin} class="w-40 bg-pink-400 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">
 				Flip'em
@@ -128,8 +131,9 @@
 	<center>Support the devs 💕</center>
 	<center><p class="text-xs">0x02C2fCAfCe36B4AAdB39625866Bc6B1699d83043</p></center>
 	<center class="mb-5"><p class="text-xs">0x0084CabF156C0ea09ED16c089f5AFba5dFAFF5e3</p></center>
-
-	<img id="coinGuy" class="absolute left-0 bottom-0 w-72 md:w-auto -z-10" src="flip.gif" alt="">
+	<div class="flex flex-col justify-end flex-grow">
+		<img id="coinGuy" class=" w-72 md:w-96 -z-10" src="flip.gif" alt="">
+	</div>
 </main>
 
 <style>
