@@ -1,7 +1,6 @@
 <script>
 	import Button from './Button.svelte';
 	import { ethStore, chainId, web3, selectedAccount, connected } from 'svelte-web3';
-	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
     
     export let contractAddress = '0xeDc5BC933d49a85f510CcF0D7440214bc1e6747d';
@@ -15,7 +14,7 @@
 
 	const contractABI = [{"inputs":[],"name":"flip","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"stateMutability":"payable","type":"constructor"},{"inputs":[],"name":"betAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currentBattler","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"losses","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"streak","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"wins","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
-	let currentBattler = '0x0000000000000000000000000000000000000000'; 
+	let currentBattler = '0x0000000000000000000000000000000000000069'; 
 	let totalWins = tweened(0); 
 	let totalLosses = tweened(0);
 	let currentStreak = tweened(0);
@@ -25,14 +24,14 @@
 		await ethStore.setBrowserProvider();
 		connectWalletLoading = false;
 
-		$web3.eth.subscribe('newBlockHeaders', function(error, result) {
+		$web3.eth.subscribe('newBlockHeaders', async function(error, result) {
 			console.log("New Block");
-			set();
+			await set();
 		})
 	}
 
-	$: checkAccount = $selectedAccount || '0x0000000000000000000000000000000000000000';
-	/*$: currentBattler.set($connected ? battler() : '0x0000000000000000000000000000000000000000');
+	$: checkAccount = $selectedAccount || '0x0000000000000000000000000000000000000069';
+	/*$: currentBattler.set($connected ? battler() : '0x0000000000000000000000000000000000000069');
 	$: totalWins.set($connected ? wins() : '0');
 	$: currentStreak.set($connected ? streak() : '0');*/
 
@@ -114,11 +113,6 @@
 		});
 	}
 
-	onMount(async () => {
-
-	});
-
-
 	$: if (checkAccount) {
 		set();
 		if($web3.eth && $chainId !== "0x309") {
@@ -136,7 +130,7 @@
 		newLosses = parseInt(newLosses);
 		newStreak = parseInt(newStreak);
 
-		currentBattler = $connected ? newBattler !== currentBattler ? newBattler : currentBattler : '0x0000000000000000000000000000000000000000';
+		currentBattler = $connected ? newBattler !== currentBattler ? newBattler : currentBattler : '0x0000000000000000000000000000000000000069';
 		totalLosses.set($connected ? newLosses !== $totalLosses ? newLosses : $totalLosses : 0);
 		totalWins.set($connected ? newWins !== $totalWins ? newWins : $totalWins : 0);
 		currentStreak.set($connected ? newStreak !== $currentStreak ? newStreak : $currentStreak : 0);
@@ -235,9 +229,9 @@
 			{#if winState}
 			<div class="outcome mt-3 font-bold leading-none">
 				{#if winState == 1}
-						You Win!
+					You Won!
 				{:else if winState == -1}
-					You Lose!
+					You Lost!
 				{/if}
 			</div>
 			{/if}
