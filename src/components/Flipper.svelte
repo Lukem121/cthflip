@@ -1,4 +1,5 @@
 <script>
+	import WrongNetwork from './WrongNetwork.svelte';
 	import Button from './Button.svelte';
 	import { ethStore, chainId, web3, selectedAccount, connected } from 'svelte-web3';
 	import { tweened } from 'svelte/motion';
@@ -6,11 +7,11 @@
     export let contractAddress = '0xeDc5BC933d49a85f510CcF0D7440214bc1e6747d';
     export let price = '10';
 
-	export let loading = false;
-
 	// Loading Spinners
 	let connectWalletLoading = false;
 	let flipLoading = false;
+
+	let wrongNetwork = false;
 
 	let winState = 0;
 
@@ -119,6 +120,7 @@
 		set();
 		if($web3.eth && $chainId !== "0x309") {
             console.log("Wrong chain - Change MetaMask to cheapETH (cheapeth.org)");
+			wrongNetwork = true;
         }
 	}
 
@@ -139,6 +141,9 @@
 	}
 	
 </script>
+	{#if wrongNetwork}
+		<WrongNetwork />
+	{/if}
 	<div class="champ pt-6 pb-5">
 		<div class="flex justify-center">
 			<img class="w-10" src="crown.svg" alt="">
@@ -165,6 +170,8 @@
 				{/if}
 			</h2>
 		</div>
+
+		
 		
 		<!-- Champ balance -->
 		<div class="flex justify-center mt-3">

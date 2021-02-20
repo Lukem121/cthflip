@@ -37,9 +37,11 @@
 		</TabPanel>
 	</Tabs>
 	
-	<center>Support the devs 💕</center>
-	<center><p class="text-xs">0x02C2fCAfCe36B4AAdB39625866Bc6B1699d83043</p></center>
-	<center class="mb-5"><p class="text-xs">0x0084CabF156C0ea09ED16c089f5AFba5dFAFF5e3</p></center>
+	<div class="donate">
+		<center>Support the devs 💕</center>
+		<center><p class="text-xs">0x02C2fCAfCe36B4AAdB39625866Bc6B1699d83043</p></center>
+		<center class="mb-5"><p class="text-xs">0x0084CabF156C0ea09ED16c089f5AFba5dFAFF5e3</p></center>
+	</div>
 	<img class="absolute left-0 bottom-0 w-72 md:w-auto -z-10" src="flip.gif" alt="">
 
 </main>
@@ -47,5 +49,13 @@
 <style>
 	h1{
 		font-family: 'Ultra', serif;
+	}
+
+	.donate {
+		position: fixed;
+		left: 50%;
+		bottom: 15px;
+		transform: translate(-50%, -50%);
+		margin: 0 auto;
 	}
 </style>

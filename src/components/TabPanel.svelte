@@ -10,8 +10,8 @@
 </script>
 
 {#if $selectedPanel === panel}
-    <div 
-        in:fade={{delay: 350, duration: 350}}
+    <div class="absolute w-screen"
+        in:fade={{delay: 350, duration: 300}}
         out:fade={{delay: 0, duration: 300}}
     >
         <slot></slot>
