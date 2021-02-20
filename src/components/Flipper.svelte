@@ -6,6 +6,8 @@
     export let contractAddress = '0xeDc5BC933d49a85f510CcF0D7440214bc1e6747d';
     export let price = '10';
 
+	export let loading = false;
+
 	// Loading Spinners
 	let connectWalletLoading = false;
 	let flipLoading = false;
@@ -240,7 +242,7 @@
 	</div>
 
 
-	<div class="flex justify-center mt-3 mb-4">
+	<div class="flex justify-center mt-3 mb-1">
 		{#if $connected}
 			<Button on:click={flipCoin} loading={flipLoading}>
 				Flip'em
@@ -250,4 +252,13 @@
 				Connect Wallet
 			</Button>
 		{/if}
+	</div>
+	<div class="flex justify-center mb-4">
+		<small class="" >You're the current champion! Now just wait and let the money roll in 😎
+			{#if $connected}
+				{#if currentBattler.toLowerCase() === checkAccount.toLowerCase() }
+					<span>(it's you)</span>
+				{/if}
+			{/if}
+		</small>
 	</div>

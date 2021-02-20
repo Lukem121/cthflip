@@ -1,4 +1,6 @@
 <script>
+    export let loading;
+
 	import { getContext } from 'svelte';
 	import { TABS } from './Tabs.svelte';
 
@@ -28,6 +30,6 @@
 	}
 </style>
 
-<button class:selected="{$selectedTab === tab}" class="w-40 text-center text-white font-bold py-2 px-4" on:click="{() => selectTab(tab)}">
+<button disabled={loading} class:selected="{$selectedTab === tab}" class="w-40 text-center text-white font-bold py-2 px-4" on:click="{() => selectTab(tab)}">
 	<slot></slot>
 </button>
