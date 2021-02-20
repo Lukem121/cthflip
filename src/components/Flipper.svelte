@@ -264,6 +264,11 @@
 	<div class="flex justify-center mt-3">
 		<center><h2 class="font-bold" >Once you have become the champion every time you <br> win against your foes, you keep their cTH.</h2></center>
 	</div>
+	<div class="donate mt-11">
+		<center>Support the devs 💕</center>
+		<center><p class="text-xs">0x02C2fCAfCe36B4AAdB39625866Bc6B1699d83043</p></center>
+		<center class="mb-5"><p class="text-xs">0x0084CabF156C0ea09ED16c089f5AFba5dFAFF5e3</p></center>
+	</div>
 
 	
 
