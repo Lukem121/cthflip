@@ -144,8 +144,7 @@
 	{#if wrongNetwork}
 		<WrongNetwork />
 	{/if}
-	<div class="champ pt-6 pb-5">
-		<div class="flex justify-center">
+		<div class="flex justify-center mt-6">
 			<img class="w-10" src="crown.svg" alt="">
 		</div>
 		<div class="flex justify-center">
@@ -212,17 +211,9 @@
 				
 			</h2>
 		</div>
-	</div>
-	<div class="flex justify-center">
-		<center><h2 class="font-bold" >Challange the current champion to a coin toss! <br> Win and become the new champion.</h2></center>
-	</div>
-	<div class="flex justify-center mt-3">
-		<center><h2 class="font-bold" >Once you have become the champion every time you <br> win against your foes, you keep their cTH.</h2></center>
-	</div>
-
 	<!-- Game outcome -->
-	<div class="flex justify-center mt-3">
-		Game Outcome:
+	<div class="flex justify-center font-bold mt-2">
+		Game Outcome
 	</div>
 	<div class="flex justify-center mt-1">
 		<div class="p-6 leading-none text-center bg-pink-300 shadow-inner rounded">
@@ -247,9 +238,7 @@
 		</div>
 		
 	</div>
-
-
-	<div class="flex justify-center mt-3 mb-1">
+	<div class="flex justify-center mt-3">
 		{#if $connected}
 			<Button on:click={flipCoin} loading={flipLoading}>
 				Flip'em
@@ -260,12 +249,23 @@
 			</Button>
 		{/if}
 	</div>
-	<div class="flex justify-center mb-4">
-		<small class="" >You're the current champion! Now just wait and let the money roll in 😎
+	<div class="flex justify-center mb-4 mt-3">
+		<small class="" >
 			{#if $connected}
 				{#if currentBattler.toLowerCase() === checkAccount.toLowerCase() }
-					<span>(it's you)</span>
+					<span>You're the current champion! Now just wait and let the money roll in 😎 (it's you)</span>
 				{/if}
 			{/if}
 		</small>
 	</div>
+	<div class="flex justify-center">
+		<center><h2 class="font-bold" >Challange the current champion to a coin toss! <br> Win and become the new champion.</h2></center>
+	</div>
+	<div class="flex justify-center mt-3">
+		<center><h2 class="font-bold" >Once you have become the champion every time you <br> win against your foes, you keep their cTH.</h2></center>
+	</div>
+
+	
+
+
+	
