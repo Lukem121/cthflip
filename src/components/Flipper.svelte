@@ -3,6 +3,7 @@
 	import Button from './Button.svelte';
 	import { ethStore, chainId, web3, selectedAccount, connected } from 'svelte-web3';
 	import { tweened } from 'svelte/motion';
+	import { onMount } from 'svelte';
     
     export let contractAddress = '0xeDc5BC933d49a85f510CcF0D7440214bc1e6747d';
     export let price = '10';
@@ -21,10 +22,12 @@
 	let totalWins = tweened(0); 
 	let totalLosses = tweened(0);
 	let currentStreak = tweened(0);
+	let championsBalance = tweened(0.0);
 
 	const enableBrowser = async () => {
 		connectWalletLoading = true;
 		await ethStore.setBrowserProvider();
+		await set();
 		connectWalletLoading = false;
 
 		$web3.eth.subscribe('newBlockHeaders', async function(error, result) {
@@ -34,10 +37,7 @@
 	}
 
 	$: checkAccount = $selectedAccount || '0x0000000000000000000000000000000000000069';
-	/*$: currentBattler.set($connected ? battler() : '0x0000000000000000000000000000000000000069');
-	$: totalWins.set($connected ? wins() : '0');
-	$: currentStreak.set($connected ? streak() : '0');*/
-
+	
 	const flipCoin = async(e) => {
 
 		winState = 0;
@@ -129,6 +129,7 @@
 		let newWins = $connected ? await wins() : 0;
 		let newStreak = $connected ? await streak() : 0;
 		let newBattler = $connected ? await battler() : 0;
+		let newBalance = $connected ? await $web3.eth.getBalance(await newBattler) : 0.0;
 
 		newWins = parseInt(newWins);
 		newLosses = parseInt(newLosses);
@@ -138,8 +139,15 @@
 		totalLosses.set($connected ? newLosses !== $totalLosses ? newLosses : $totalLosses : 0);
 		totalWins.set($connected ? newWins !== $totalWins ? newWins : $totalWins : 0);
 		currentStreak.set($connected ? newStreak !== $currentStreak ? newStreak : $currentStreak : 0);
+
+		let newBalanceEther = await $web3.utils.fromWei((newBalance).toString(), 'ether');
+		championsBalance.set($connected ? parseFloat(newBalanceEther) !== $championsBalance ? parseFloat(newBalanceEther) : $championsBalance : 0.0);
 	}
 	
+	onMount(async () => {
+		await set();
+	});
+
 </script>
 	{#if wrongNetwork}
 		<WrongNetwork />
@@ -174,16 +182,12 @@
 		
 		<!-- Champ balance -->
 		<div class="flex justify-center mt-3">
-			<h2 class="font-bold text-lg" >Champion's Balance</h2>
+			<h2 class="font-bold text-lg">Champion's Balance</h2>
 		</div>
 		<div class="flex justify-center">
 			<h2>
 				{#if $connected}
-					{#await $web3.eth.getBalance(currentBattler)}
-						<span>...</span>
-					{:then value}
-					<span class="font-bold" >{Number($web3.utils.fromWei(value, 'ether')).toFixed(2)} cTH</span>
-					{/await}
+					<span class="font-bold">{$championsBalance.toFixed(2)} cTH</span>
 				{:else}
 					<span>please connect your wallet...</span>
 				{/if}
@@ -191,7 +195,7 @@
 		</div>
 		<!-- Champ streak -->
 		<div class="flex bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 text-white py-4 justify-center mt-4">
-			<h2 class="font-bold text-lg" >
+			<h2 class="font-bold text-lg">
 				{#if $connected}
 					<span class="font-bold">Your Winning Streak: {$currentStreak.toFixed(0)} 🔥</span>
 				{:else}
@@ -240,9 +244,15 @@
 	</div>
 	<div class="flex justify-center mt-3">
 		{#if $connected}
-			<Button on:click={flipCoin} loading={flipLoading}>
-				Flip'em
-			</Button>
+			{#if currentBattler.toLowerCase() === checkAccount.toLowerCase() }
+				<Button on:click={flipCoin}  loading={flipLoading} disabled={true}>
+					Flip'em
+				</Button>
+				{:else}
+				<Button on:click={flipCoin}  loading={flipLoading}>
+					Flip'em
+				</Button>
+			{/if}
 		{:else}
 			<Button on:click={enableBrowser} loading={connectWalletLoading}>
 				Connect Wallet
@@ -253,7 +263,7 @@
 		<small class="" >
 			{#if $connected}
 				{#if currentBattler.toLowerCase() === checkAccount.toLowerCase() }
-					<span>You're the current champion! Now just wait and let the money roll in 😎 (it's you)</span>
+					<span>You're the current champion! Now just wait and let the money roll in 😎</span>
 				{/if}
 			{/if}
 		</small>

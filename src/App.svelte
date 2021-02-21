@@ -39,7 +39,7 @@
 		</Tabs>
 	</div>
 	
-	<img class="absolute left-0 bottom-0 w-72 md:w-auto -z-10" src="flip.gif" alt="">
+	<img class="hidden md:block fixed left-0 bottom-0 w-72 md:w-auto -z-10" src="flip.gif" alt="">
 </main>
 
 <style>
