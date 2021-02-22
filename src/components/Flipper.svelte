@@ -4,6 +4,8 @@
 	import { ethStore, chainId, web3, selectedAccount, connected } from 'svelte-web3';
 	import { tweened } from 'svelte/motion';
 	import { onMount } from 'svelte';
+	import { scale } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
     
     export let contractAddress = '0xeDc5BC933d49a85f510CcF0D7440214bc1e6747d';
     export let price = '10';
@@ -153,7 +155,7 @@
 		<WrongNetwork />
 	{/if}
 		<div class="flex justify-center mt-6">
-			<img class="w-10" src="crown.svg" alt="">
+			<img class="w-10 h-10" src="crown.svg" alt="">
 		</div>
 		<div class="flex justify-center">
 			<h2 class="font-bold text-lg" >Current Champion
