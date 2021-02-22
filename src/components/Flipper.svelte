@@ -29,6 +29,13 @@
 	const enableBrowser = async () => {
 		connectWalletLoading = true;
 		await ethStore.setBrowserProvider();
+
+		if($web3.eth && await $web3.eth.net.getId() !== 777) {
+            console.log("Wrong chain - Change MetaMask to cheapETH (cheapeth.org)");
+			wrongNetwork = true;
+			return;
+        }
+		
 		await set();
 		connectWalletLoading = false;
 
@@ -120,10 +127,6 @@
 
 	$: if (checkAccount) {
 		set();
-		if($web3.eth && $chainId !== "0x309") {
-            console.log("Wrong chain - Change MetaMask to cheapETH (cheapeth.org)");
-			wrongNetwork = true;
-        }
 	}
 
 	async function set() {
