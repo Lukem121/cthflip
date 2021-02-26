@@ -51,6 +51,7 @@
         await contract.methods.joinRaffle().send({
             from: $selectedAccount,
             gasPrice: $web3.utils.toHex($web3.utils.toWei('1', 'gwei')),
+            gasLimit: $web3.utils.toHex(115000),
             value: $web3.utils.toWei((price * numberOfTickets).toString(), 'gwei')
         })
         .then( (receipt) => {
