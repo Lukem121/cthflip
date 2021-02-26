@@ -2,6 +2,7 @@
 	import Tailwindcss from './Tailwindcss.svelte';
 	import { Tabs, TabList, TabPanel, Tab } from './tabs.js';
 	import Flipper from './components/Flipper.svelte';
+	import Raffle from './components/Rafflemyown.svelte';
 </script>
 
 <Tailwindcss />
@@ -20,6 +21,7 @@
 				<Tab>0.01 cTH</Tab>
 				<Tab>0.1 cTH</Tab>
 				<Tab>1 cTH</Tab>
+				<Tab lable={true} >Raffle</Tab>
 			</TabList>
 		
 			<!-- 0.01cTH-->
@@ -35,6 +37,11 @@
 			<!-- 1cTH -->
 			<TabPanel>
 				<Flipper price={'1000'} contractAddress={'0xF153CF203410205eba4c77F98768F564Cdd827F8'}/>
+			</TabPanel>
+
+			<!-- Raffle -->
+			<TabPanel>
+				<Raffle />
 			</TabPanel>
 		</Tabs>
 	</div>

@@ -1,5 +1,6 @@
 <script>
     export let loading;
+    export let lable;
 
 	import { getContext } from 'svelte';
 	import { TABS } from './Tabs.svelte';
@@ -12,12 +13,9 @@
 
 <style>
 	button {
-		background: none;
 		border: none;
 		border-bottom: 2px solid white;
-		border-radius: 0;
 		margin: 0;
-		color: #ccc;
 	}
 
     button:focus {
@@ -30,6 +28,6 @@
 	}
 </style>
 
-<button disabled={loading} class:selected="{$selectedTab === tab}" class="w-40 text-center text-white font-bold py-2 px-4" on:click="{() => selectTab(tab)}">
+<button disabled={loading} class:selected="{$selectedTab === tab}" class:text-pink-300={lable} class="w-40 text-gray-400 text-center font-bold py-2 px-4" on:click="{() => selectTab(tab)}">
 	<slot></slot>
 </button>
