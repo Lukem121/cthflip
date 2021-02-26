@@ -37,6 +37,13 @@ const abi = [
 		"type": "event"
 	},
 	{
+		"inputs": [],
+		"name": "joinRaffle",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -131,13 +138,6 @@ const abi = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "joinRaffle",
-		"outputs": [],
-		"stateMutability": "payable",
 		"type": "function"
 	},
 	{

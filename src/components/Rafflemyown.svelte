@@ -5,7 +5,7 @@
 
 
     import abi from '../_abi.js';
-    let contractAddress = '0xCf234C91b8e592C320ae7f34099fC9128d5D94f6'; 
+    let contractAddress = '0xd88c17b393f1134DeB7B9cde13ea175ff99b13fd'; 
 
     // Display modal if user is on wrong network
     let wrongNetwork = false; // A1 201.489 A2 300.023
@@ -14,8 +14,8 @@
 	let connectWalletLoading = false;
 	let transactionLoading = false;
 
-    let price = 10000000;
-    let numberOfTickets = 100;
+    let price = 1000000000;
+    let numberOfTickets = 1;
 
     // UI Varibles
     let ticketRemaing = 0;
@@ -51,7 +51,7 @@
         await contract.methods.joinRaffle().send({
             from: $selectedAccount,
             gasPrice: $web3.utils.toHex($web3.utils.toWei('1', 'gwei')),
-            gasLimit: $web3.utils.toHex(115000),
+            gasLimit: $web3.utils.toHex(300000),
             value: $web3.utils.toWei((price * numberOfTickets).toString(), 'gwei')
         })
         .then( (receipt) => {
@@ -151,8 +151,8 @@
                     <p>
                         {#if timeRemaining > 0}
                             {timeRemaining} Blocks until draw
-                        {:else if timeRemaining == 0}
-                            Draw is happening
+                        {:else if timeRemaining <= 0 && numberOfPlayers >= 2}
+                            Draw will occur on next transaction!
                         {:else}
                             {2 - numberOfPlayers} More players needed
                         {/if}
@@ -168,10 +168,10 @@
     <form on:submit|preventDefault={joinRaffle} class="flex mt-5 flex-col items-center justify-center" >
         <div class="font-bold">
             <span>I want to buy</span>
-            <input bind:value={numberOfTickets} type="number" required min="1" step="1" class="mt-1 p-3 pl-5 text-lg appearance-none placeholder-black font-bold focus:ring-indigo-500 leading-none text-center bg-pink-300 focus:border-indigo-500 w-40 shadow-sm border-gray-300 rounded-md">
+            <input bind:value={numberOfTickets} type="number" required min="1" max="10" step="1" class="mt-1 p-3 pl-5 text-lg appearance-none placeholder-black font-bold focus:ring-indigo-500 leading-none text-center bg-pink-300 focus:border-indigo-500 w-40 shadow-sm border-gray-300 rounded-md">
             <span>raffle tickets</span>
         </div>
-        <span> 0.01cTH per ticket</span>
+        <span> 1cTH per ticket</span>
         <div class="submit mt-3">
             {#if $connected}
                 <Button loading={transactionLoading}> Enter Raffle </Button>
