@@ -52,6 +52,7 @@
         await contract.methods.joinRaffle().send({
             from: $selectedAccount,
             gasPrice: $web3.utils.toHex($web3.utils.toWei('1', 'gwei')),
+            gasLimit: $web3.utils.toHex(600000),
             value: $web3.utils.toWei((price * numberOfTickets).toString(), 'gwei')
         })
         .then( (receipt) => {
@@ -199,7 +200,7 @@
         {#await updateValues()}
             <p>...waiting</p>
         {:then}
-            <div class="flex flex-row-reverse">
+            <div class="flex flex-col-reverse">
                 <div class="font-bold ml-4">
                     {#each raffleWinnersPrizes as prizes }
                         <p>
