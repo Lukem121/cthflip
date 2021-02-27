@@ -76,7 +76,6 @@
         }
         raffleWinnersPrizes = raffleWinnersPrizes.slice().reverse();
         raffleWinners = raffleWinners.slice().reverse();
-
     }
 
     const getNumberOfPlayers = async(e) => {
@@ -200,21 +199,21 @@
         {#await updateValues()}
             <p>...waiting</p>
         {:then}
-            <div class="flex flex-col-reverse">
+            <div class="flex">
                 <div class="font-bold ml-4">
-                    {#each raffleWinnersPrizes as prizes }
-                        <p>
-                            {$web3.utils.fromWei((prizes).toString())} cTH 
-                        </p>
-                    {/each}
-                </div>
-                <div class="font-bold">
                     {#each raffleWinners as winner }
                         <p>
                             {winner}
                             {#if winner.toLowerCase() == $selectedAccount.toLowerCase()}
                                 <span class="text-pink-600"> YOU WON!! 🥳</span>
                             {/if}
+                        </p>
+                    {/each}
+                </div>
+                <div class="font-bold ml-4">
+                    {#each raffleWinnersPrizes as prizes }
+                        <p>
+                            {$web3.utils.fromWei((prizes).toString())} cTH 
                         </p>
                     {/each}
                 </div>
