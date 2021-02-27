@@ -4,8 +4,6 @@
 	import { ethStore, chainId, web3, selectedAccount, connected } from 'svelte-web3';
 	import { tweened } from 'svelte/motion';
 	import { onMount } from 'svelte';
-	import { scale } from 'svelte/transition';
-	import { quintOut } from 'svelte/easing';
     
     export let contractAddress = '0xeDc5BC933d49a85f510CcF0D7440214bc1e6747d';
     export let price = '10';
@@ -44,6 +42,16 @@
 			await set();
 		})
 	}
+
+	onMount(async () => {
+		await set();
+		connectWalletLoading = false;
+
+		$web3.eth.subscribe('newBlockHeaders', async function(error, result) {
+			console.log("New Block");
+			await set();
+		})
+	});
 
 	$: checkAccount = $selectedAccount || '0x0000000000000000000000000000000000000069';
 	
@@ -148,10 +156,6 @@
 		let newBalanceEther = await $web3.utils.fromWei((newBalance).toString(), 'ether');
 		championsBalance.set($connected ? parseFloat(newBalanceEther) !== $championsBalance ? parseFloat(newBalanceEther) : $championsBalance : 0.0);
 	}
-	
-	onMount(async () => {
-		await set();
-	});
 
 </script>
 	{#if wrongNetwork}

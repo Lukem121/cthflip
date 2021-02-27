@@ -2,6 +2,8 @@
     import WrongNetwork from './WrongNetwork.svelte';
     import Button from './Button.svelte';
     import { ethStore, chainId, web3, selectedAccount, connected } from 'svelte-web3';
+	import { onMount } from 'svelte';
+
 
     import abi from '../_abi.js';
     let contractAddress = '0x7F4ab9dE8BcAf9f7890736c07edB7178f4D75476'; 
@@ -23,6 +25,15 @@
     let timeRemaining = 0;
     let raffleWinners = [];
     let raffleWinnersPrizes = [];
+
+    onMount(async () => {
+		await updateValues();
+
+        // Updates any values that may have changed in the new block
+        $web3.eth.subscribe('newBlockHeaders', async function(error, result) {
+			await updateValues();
+		})  
+	});
 
     // Enables the connection to the MetaMask extention
     const enableBrowser = async () => {
