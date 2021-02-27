@@ -66,7 +66,6 @@
 		return new Promise((resolve, reject) => {
 			contract.methods.flip().send({
 				gasPrice: $web3.utils.toHex($web3.utils.toWei('1', 'gwei')),
-				gasLimit: $web3.utils.toHex(115000),
 				from: $selectedAccount,
 				to: contractAddress,
 				value: $web3.utils.toHex($web3.utils.toWei(price, 'finney'))

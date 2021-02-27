@@ -5,7 +5,7 @@
 
 
     import abi from '../_abi.js';
-    let contractAddress = '0xd88c17b393f1134DeB7B9cde13ea175ff99b13fd'; 
+    let contractAddress = '0x7F4ab9dE8BcAf9f7890736c07edB7178f4D75476'; 
 
     // Display modal if user is on wrong network
     let wrongNetwork = false; // A1 201.489 A2 300.023
@@ -23,6 +23,7 @@
     let numberOfPlayers = 0;
     let timeRemaining = 0;
     let raffleWinners = [];
+    let raffleWinnersPrizes = [];
 
     // Enables the connection to the MetaMask extention
     const enableBrowser = async () => {
@@ -51,7 +52,6 @@
         await contract.methods.joinRaffle().send({
             from: $selectedAccount,
             gasPrice: $web3.utils.toHex($web3.utils.toWei('1', 'gwei')),
-            gasLimit: $web3.utils.toHex(300000),
             value: $web3.utils.toWei((price * numberOfTickets).toString(), 'gwei')
         })
         .then( (receipt) => {
@@ -65,9 +65,15 @@
         timeRemaining = await getTimeRemaining();
         numberOfPlayers = await getNumberOfPlayers();
         raffleWinners = await getRaffleWinners();
+        raffleWinnersPrizes = await getWinnersPrizes();
+
+        if(raffleWinnersPrizes.length > 10){
+            raffleWinnersPrizes = raffleWinnersPrizes.slice(Math.max(raffleWinnersPrizes.length - 10, 1));
+        }
         if(raffleWinners.length > 10){
             raffleWinners = raffleWinners.slice(Math.max(raffleWinners.length - 10, 1));
         }
+        raffleWinnersPrizes = raffleWinnersPrizes.slice().reverse();
         raffleWinners = raffleWinners.slice().reverse();
 
     }
@@ -99,6 +105,12 @@
     const getRaffleWinners = async(e) => {
 		let contract = new $web3.eth.Contract(abi, contractAddress);
 		return contract.methods.getWinners().call().then(function(res) {
+			return res;
+		});
+	}
+    const getWinnersPrizes = async(e) => {
+		let contract = new $web3.eth.Contract(abi, contractAddress);
+		return contract.methods.getWinnersPrizes().call().then(function(res) {
 			return res;
 		});
 	}
@@ -152,7 +164,7 @@
                         {#if timeRemaining > 0}
                             {timeRemaining} Blocks until draw
                         {:else if timeRemaining <= 0 && numberOfPlayers >= 2}
-                            Draw will occur on next transaction!
+                            Next ticket purchased will trigger the draw!
                         {:else}
                             {2 - numberOfPlayers} More players needed
                         {/if}
@@ -187,16 +199,25 @@
         {#await updateValues()}
             <p>...waiting</p>
         {:then}
-            {#each raffleWinners as winner }
-                <div class="font-bold">
-                    <p>
-                        {winner}
-                        {#if winner.toLowerCase() == $selectedAccount.toLowerCase()}
-                            <span class="text-pink-600"> YOU WON!! 🥳</span>
-                        {/if}
-                    </p>
+            <div class="flex flex-row-reverse">
+                <div class="font-bold ml-4">
+                    {#each raffleWinnersPrizes as prizes }
+                        <p>
+                            {$web3.utils.fromWei((prizes).toString())} cTH 
+                        </p>
+                    {/each}
                 </div>
-            {/each}
+                <div class="font-bold">
+                    {#each raffleWinners as winner }
+                        <p>
+                            {winner}
+                            {#if winner.toLowerCase() == $selectedAccount.toLowerCase()}
+                                <span class="text-pink-600"> YOU WON!! 🥳</span>
+                            {/if}
+                        </p>
+                    {/each}
+                </div>
+            </div>
         {:catch error}
             <p style="color: red">{error.message}</p>
         {/await}
