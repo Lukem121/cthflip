@@ -3,7 +3,6 @@
     import Button from './Button.svelte';
     import { ethStore, chainId, web3, selectedAccount, connected } from 'svelte-web3';
 
-
     import abi from '../_abi.js';
     let contractAddress = '0x7F4ab9dE8BcAf9f7890736c07edB7178f4D75476'; 
 
@@ -18,7 +17,7 @@
     let numberOfTickets = 1;
 
     // UI Varibles
-    let ticketRemaing = 0;
+    let ticketRemaining = 0;
     let contractBalance = 0;
     let numberOfPlayers = 0;
     let timeRemaining = 0;
@@ -42,8 +41,7 @@
 
         // Updates any values that may have changed in the new block
         $web3.eth.subscribe('newBlockHeaders', async function(error, result) {
-			console.log("New Block");
-			await updateValues()
+			await updateValues();
 		})        
     }
 
@@ -61,21 +59,30 @@
     }
 
     const updateValues = async () => {
-        ticketRemaing = await getTickets();
-        contractBalance = await getContractBalance();
-        timeRemaining = await getTimeRemaining();
-        numberOfPlayers = await getNumberOfPlayers();
-        raffleWinners = await getRaffleWinners();
-        raffleWinnersPrizes = await getWinnersPrizes();
+        let newTicketRemaining = await getTickets();
+        let newContractBalance = await getContractBalance();
+        let newTimeRemaining = await getTimeRemaining();
+        let newNumberOfPlayers = await getNumberOfPlayers();
+        let newRaffleWinners = await getRaffleWinners();
+        let newRaffleWinnersPrizes = await getWinnersPrizes();
 
-        if(raffleWinnersPrizes.length > 10){
-            raffleWinnersPrizes = raffleWinnersPrizes.slice(Math.max(raffleWinnersPrizes.length - 10, 1));
+        if(newRaffleWinnersPrizes.length > 10) {
+            newRaffleWinnersPrizes = newRaffleWinnersPrizes.slice(Math.max(newRaffleWinnersPrizes.length - 10, 1));
         }
-        if(raffleWinners.length > 10){
-            raffleWinners = raffleWinners.slice(Math.max(raffleWinners.length - 10, 1));
+        if(newRaffleWinners.length > 10) {
+            newRaffleWinners = newRaffleWinners.slice(Math.max(newRaffleWinners.length - 10, 1));
         }
-        raffleWinnersPrizes = raffleWinnersPrizes.slice().reverse();
-        raffleWinners = raffleWinners.slice().reverse();
+        
+        newRaffleWinnersPrizes = newRaffleWinnersPrizes.slice().reverse();
+        newRaffleWinners = newRaffleWinners.slice().reverse();
+
+        ticketRemaining = ticketRemaining !== newTicketRemaining ? newTicketRemaining : ticketRemaining;
+        contractBalance = contractBalance !== newContractBalance ? newContractBalance : contractBalance;
+        timeRemaining = timeRemaining !== newTimeRemaining ? newTimeRemaining : timeRemaining;
+        numberOfPlayers = numberOfPlayers !== newNumberOfPlayers ? newNumberOfPlayers : numberOfPlayers;
+
+        raffleWinners = raffleWinners !== newRaffleWinners ? newRaffleWinners : raffleWinners;
+        raffleWinnersPrizes = raffleWinnersPrizes !== newRaffleWinnersPrizes ? newRaffleWinnersPrizes : raffleWinnersPrizes;
     }
 
     const getNumberOfPlayers = async(e) => {
@@ -145,7 +152,7 @@
                 {#await updateValues()}
                     <p>...waiting</p>
                 {:then}
-                    <p>{ticketRemaing} Tickets Sold</p>
+                    <p>{ticketRemaining} Tickets Sold</p>
                 {:catch error}
                     <p style="color: red">{error.message}</p>
                 {/await}
